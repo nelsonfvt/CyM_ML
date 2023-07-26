@@ -2,17 +2,14 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 import pandas as pd
 
-df = pd.read_csv('Lin_Data.csv')
+df = pd.read_csv('MLin_Data.csv')
 
-X_list = df['x'].values.tolist()
 y_list = df['y'].values.tolist()
+df.head()
+x_matr = df[df.columns[1:6]]
 
-#print(type(X[0]))
-
-X = np.asarray(X_list)
 y = np.asarray(y_list)
-
-X = X.reshape((-1, 1))
+X = x_matr.to_numpy()
 
 reg = LinearRegression().fit(X,y)
 print('Ajuste del modelo:')
@@ -22,7 +19,7 @@ print('Parámetros encontrados:')
 print(reg.coef_)
 print(reg.intercept_)
 
-test = np.arange(14,30)
-pred = reg.predict(test.reshape(-1, 1))
-print('Predicciones')
+test = np.array([15, -1, -3, 23, 7])
+pred = reg.predict(test.reshape(1, -1))
+print('Prediccion')
 print(pred)
