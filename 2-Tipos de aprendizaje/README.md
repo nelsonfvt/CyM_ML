@@ -1,1 +1,3 @@
-# CyM_ML
+# 2. Tipos de aprendizaje automático
+
+Encontrará código ejemplo
