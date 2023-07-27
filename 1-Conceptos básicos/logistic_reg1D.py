@@ -18,7 +18,8 @@ print('Ajuste del modelo')
 print(clf.score(X, l))
 
 # parametros del modelo
-print(clf.get_params)
+print(clf.coef_)
+print(clf.intercept_)
 
 print('Predicciones:')
 # etiquetas predichas de las primeras 10 muestras
