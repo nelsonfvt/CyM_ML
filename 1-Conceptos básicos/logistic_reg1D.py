@@ -14,13 +14,20 @@ X = X.reshape((-1, 1))
 
 clf = LogisticRegression(random_state=0).fit(X, l)
 
+print('Ajuste del modelo')
 print(clf.score(X, l))
 
+# parametros del modelo
+print(clf.get_params)
+
+print('Predicciones:')
 # etiquetas predichas de las primeras 10 muestras
 test = X[0:9, :]
 pred = clf.predict(test)
+print('Etiquetas:')
 print(pred)
 
 # probabilidad de pertenencia
 prob_pred = clf.predict_proba(test)
+print('Pertenencias a clases 0 - 1:')
 print(prob_pred)
