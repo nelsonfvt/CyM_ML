@@ -1,4 +1,4 @@
-# CyM_ML
+# Machine Learning
 
 Bienvenidos al fascinante y revolucionario universo del Machine Learning, la tecnología detrás de los sistemas más avanzados e innovadores de nuestro tiempo. Desde las recomendaciones personalizadas de Netflix hasta el asistente de voz en tu teléfono móvil, el Machine Learning está impulsando una nueva era de inteligencia artificial y aprendizaje autónomo. A lo largo de esta asignatura, nos embarcaremos en un viaje explorando cómo las máquinas pueden aprender de los datos, cómo se diseñan y construyen modelos eficientes, y cómo estos pueden ser utilizados para realizar predicciones y tomar decisiones fundamentadas. Independientemente de tu interés, ya sea en ciencia, ingeniería, negocios, salud o humanidades, el Machine Learning tiene algo invaluable que ofrecerte. Así que prepárate para una aventura apasionante en la intersección de la ciencia de datos y la ingeniería, donde las máquinas aprenden a "pensar" por sí mismas. ¡Bienvenido al futuro del aprendizaje, bienvenido al Machine Learning!
 
