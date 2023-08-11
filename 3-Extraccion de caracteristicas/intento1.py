@@ -2,6 +2,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
+#Ejemplo creado por:
+# Juan David Torres
+
 # Cargar el conjunto de datos Iris
 iris = load_iris()
 iris_data = iris.data
