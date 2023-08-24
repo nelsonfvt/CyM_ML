@@ -51,8 +51,7 @@ for i in range(2, s_lenna[0], patch_size): #filas
     for j in range(2,s_lenna[1], patch_size): #columnas
         patch = lenna[i-1:i+2, j-1:j+2]
         patch = np.reshape(patch,(9, 1))
-        #patch = patch / np.linalg.norm(patch)
-        Do = np.c_[Do, patch] #append(Do, patch, axis=1)
+        Do = np.c_[Do, patch]
 
 print('Tamaño del diccionario original:')
 print(Do.shape)
@@ -70,7 +69,6 @@ fila = round(s_barbe[1]/2)
 for i in range(2, s_barbe[1]-1, patch_size): #una fila
     patch = barbe[fila-1:fila +2, i-1:i+2]
     patch = np.reshape(patch, (9, 1))
-    #patch = patch / np.linalg.norm(patch)
     X = np.c_[X, patch]
 
 print('Tamaño de X:')
@@ -91,11 +89,20 @@ print(X.shape)
 D_1 = K_SVD(X, D1, noncero_coef=15, iter=10)
 print('Tamaño Diccionario K-SVD:')
 print(D_1.shape)
-W = OMP(D_1, X[:, 0:3],tol=0.0001)
+
+# Extrayendo algunos parches de Barbara 
+X_t = np.empty([9, 0]) #vacio
+fila = round(s_barbe[1]/2)+2
+for i in range(2, s_barbe[1]-1, patch_size): #una fila
+    patch = barbe[fila-1:fila +2, i-1:i+2]
+    patch = np.reshape(patch, (9, 1))
+    X_t = np.c_[X_t, patch]
+
+W = OMP(D_1, X_t[:, 0:3],tol=0.0001)
 F = D_1.dot(W)
 print('Matriz Reconstruida:')
 print(F)
 print('Matriz Original:')
-print(X[:, 0:3])
+print(X_t[:, 0:3])
 print('MSE')
-print(mean_squared_error(X[:, 0:3], F))
+print(mean_squared_error(X_t[:, 0:3], F))
