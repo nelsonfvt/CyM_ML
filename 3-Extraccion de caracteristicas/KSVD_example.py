@@ -9,11 +9,11 @@ from matplotlib.image import imread
 def OMP(D, y, noncero_coef=None, tol=None):
     return orthogonal_mp(D, y, n_nonzero_coefs=noncero_coef, tol=tol, precompute=True )
 
-def K_SVD(X, D, noncero_coef ,iter):
+def K_SVD(X, D, noncero_coef, tol ,iter):
     f, K = D.shape
     for n in range(iter):
         print('iteracion K-SVD: ' + str(n))
-        W = OMP(D, X, tol=0.01) #noncero_coef=noncero_coef
+        W = OMP(D, X, tol=tol) #noncero_coef=noncero_coef
         R = X - D.dot(W)
         for k in range(K):
             wk = np.nonzero(W[k,:])[0] #indices no cero
@@ -32,7 +32,9 @@ def K_SVD(X, D, noncero_coef ,iter):
             R[:, wk] = Ri - DW
     
     return D
-            
+
+prec = 0.01
+
 # Cargando imagenes
 lenna = imread('lenna.jpg')
 barbe = imread('barbara.jpg')
@@ -76,7 +78,7 @@ print(X.shape)
 
 # OMP test
 # print('Prueba de Ortogonal Matching Pursuit:')
-# W = OMP(Do, X[:, 0:3],tol=0.01)
+# W = OMP(Do, X[:, 0:3],tol=prec)
 # F = Do.dot(W)
 # print('Matriz Reconstruida:')
 # print(F)
@@ -86,7 +88,7 @@ print(X.shape)
 # print(mean_squared_error(X[:, 0:3], F))
 
 # K-SVD test
-D_1 = K_SVD(X, D1, noncero_coef=15, iter=10)
+D_1 = K_SVD(X, D1, noncero_coef=15,tol=prec, iter=10)
 print('Tamaño Diccionario K-SVD:')
 print(D_1.shape)
 
@@ -98,7 +100,7 @@ for i in range(2, s_barbe[1]-1, patch_size): #una fila
     patch = np.reshape(patch, (9, 1))
     X_t = np.c_[X_t, patch]
 
-W = OMP(D_1, X_t[:, 0:3],tol=0.01)
+W = OMP(D_1, X_t[:, 0:3],tol=prec)
 F = D_1.dot(W)
 print('Matriz Reconstruida:')
 print(F)
