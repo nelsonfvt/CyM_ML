@@ -13,7 +13,7 @@ def K_SVD(X, D, noncero_coef ,iter):
     f, K = D.shape
     for n in range(iter):
         print('iteracion K-SVD: ' + str(n))
-        W = OMP(D, X, tol=0.00001) #noncero_coef=noncero_coef
+        W = OMP(D, X, tol=0.01) #noncero_coef=noncero_coef
         R = X - D.dot(W)
         for k in range(K):
             wk = np.nonzero(W[k,:])[0] #indices no cero
@@ -76,7 +76,7 @@ print(X.shape)
 
 # OMP test
 # print('Prueba de Ortogonal Matching Pursuit:')
-# W = OMP(Do, X[:, 0:3],tol=0.0001)
+# W = OMP(Do, X[:, 0:3],tol=0.01)
 # F = Do.dot(W)
 # print('Matriz Reconstruida:')
 # print(F)
@@ -98,7 +98,7 @@ for i in range(2, s_barbe[1]-1, patch_size): #una fila
     patch = np.reshape(patch, (9, 1))
     X_t = np.c_[X_t, patch]
 
-W = OMP(D_1, X_t[:, 0:3],tol=0.0001)
+W = OMP(D_1, X_t[:, 0:3],tol=0.01)
 F = D_1.dot(W)
 print('Matriz Reconstruida:')
 print(F)
