@@ -7,26 +7,29 @@ from matplotlib.image import imread
 
 
 def OMP(D, y, noncero_coef=None, tol=None):
-    omp = OrthogonalMatchingPursuit(n_nonzero_coefs=noncero_coef, tol=tol)
-    #scaler = StandardScaler()
-    #D = scaler.fit_transform(D)
-    omp.fit(D, y)
-    return omp.coef_
-    #return orthogonal_mp(D, Y, n_nonzero_coefs=noncero_coef, tol=tol, precompute=True )
+    return orthogonal_mp(D, y, n_nonzero_coefs=noncero_coef, tol=tol, precompute=True )
 
-def K_SVD(X, D, K, noncero_coef ,iter):
-
+def K_SVD(X, D, noncero_coef ,iter):
+    f, K = D.shape
     for n in range(iter):
-        print(n)
-        W = OMP(D, X, noncero_coef)
+        print('iteracion K-SVD: ' + str(n))
+        W = OMP(D, X, tol=0.00001) #noncero_coef=noncero_coef
         R = X - D.dot(W)
         for k in range(K):
-            wk = np.nonzero(W[k,:])[0]
-            Ri = R[:, wk] + D[:,k].dot(W[None,k,wk])
+            wk = np.nonzero(W[k,:])[0] #indices no cero
+            if len(wk) == 0:
+                continue
+            DW = np.empty([9, 0])
+            for j in range(len(wk)):
+                DW = np.c_[DW, D[:,k]*W[k,wk[j]]]
+            Ri = R[:, wk] + DW
             U, s, Vh = np.linalg.svd(Ri)
             D[:, k] = U[:, 0]
             W[k, wk] = s[0] * Vh[0, :]
-            R[:, wk] = Ri - D[:, k, None]. dot(W[None,k,wk])
+            DW = np.empty([9, 0])
+            for j in range(len(wk)):
+                DW = np.c_[DW, D[:,k]*W[k,wk[j]]]
+            R[:, wk] = Ri - DW
     
     return D
             
@@ -55,7 +58,7 @@ print('Tamaño del diccionario original:')
 print(Do.shape)
 #Eliminar linear dependencies del diccionario
 # se usa un algoritmo de agrupamiento
-k = Do.shape[0]*10 - 1#round(Do.shape[1]/50)
+k = round(Do.shape[1]/10) #Decima parte del original
 kmeans = KMeans(k,max_iter=200,n_init='auto', random_state=0, init='k-means++').fit(Do.T)
 D1 = kmeans.cluster_centers_.T
 print('Tamaño diccionario reducido:')
@@ -73,11 +76,26 @@ for i in range(2, s_barbe[1]-1, patch_size): #una fila
 print('Tamaño de X:')
 print(X.shape)
 
-W = OMP(D1, X[:, 1:2],tol=0.00000001)
-print('Pesos:')
-print(W)
+# OMP test
+# print('Prueba de Ortogonal Matching Pursuit:')
+# W = OMP(Do, X[:, 0:3],tol=0.0001)
+# F = Do.dot(W)
+# print('Matriz Reconstruida:')
+# print(F)
+# print('Matriz Original:')
+# print(X[:, 0:3])
+# print('MSE')
+# print(mean_squared_error(X[:, 0:3], F))
 
-F = D1.dot(W)+227.4339
+# K-SVD test
+D_1 = K_SVD(X, D1, noncero_coef=15, iter=10)
+print('Tamaño Diccionario K-SVD:')
+print(D_1.shape)
+W = OMP(D_1, X[:, 0:3],tol=0.0001)
+F = D_1.dot(W)
+print('Matriz Reconstruida:')
 print(F)
-print(X[:, 1:2])
-print(mean_squared_error(X[:, 0:1], F))
+print('Matriz Original:')
+print(X[:, 0:3])
+print('MSE')
+print(mean_squared_error(X[:, 0:3], F))
