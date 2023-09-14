@@ -26,11 +26,10 @@ def delta_rule(inp,out,w,b):
         print('Epoca: ' + str(Epoch))
         print('Error: ' + str(E))
 
-        df = yc * (1-yc)
+        df = yc * (1-yc) # sigmoide derivada
 
         for k in range(0,len(yc)):
             
-            #df = yc[k] * (1 - yc[k]) # sigmoide derivada
             delta = alpha * err[k] * df[k]
             delt_w = delta * inp[k,:]
             b = b + delta
