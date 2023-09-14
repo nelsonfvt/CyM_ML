@@ -1,17 +1,19 @@
 import numpy as np
 
 
-def neurona(inp, w):
-    f = np.matmul(inp,w)
+def neurona(inp, w, b):
+    f = np.matmul(inp,w) + b
     #return np.tanh(f) #Tang hiperbolica
     return 1/(1 + np.exp(-f)) #sigmoide
 
 input = np.array([[0.0, 0.0],[0.0, 1.0],[1.0, 0.0],[1.0, 1.0]])
 output = np.array([0.0, 1.0, 1.0, 1.0])
 
-w = np.array([0.5, 0.5]) #Ajuste manualmente
+#Ajuste manualmente
+w = np.array([0.1, 0.1])
+b = -0.1
 
-y = neurona(input,w)
+y = neurona(input,w,b)
 print('salidas obtenidas:')
 print(y)
 
