@@ -13,8 +13,9 @@ output = np.array([0.0, 1.0, 1.0, 1.0])
 pred_1 = model(input).numpy()
 
 loss_fn = tf.keras.losses.MeanSquaredError()
+opt = tf.keras.optimizers.Adam(learning_rate=0.1)
 
-model.compile(optimizer='adam', loss=loss_fn, metrics=['accuracy'])
+model.compile(optimizer=opt, loss=loss_fn, metrics=['accuracy'])
 
 model.fit(input, output, epochs=5000)
 
