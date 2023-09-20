@@ -33,7 +33,7 @@ def K_SVD(X, D, noncero_coef, tol ,iter):
     
     return D
 
-prec = 0.01
+prec = 0.001
 
 # Cargando imagenes
 lenna = imread('lenna.jpg')
