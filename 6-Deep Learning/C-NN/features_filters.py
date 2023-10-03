@@ -51,7 +51,9 @@ if(visual == 'Y'):
 			pyplot.imshow(f[:, :, j], cmap='gray')
 			ix += 1
 	# show the figure
-	pyplot.show()
+	pyplot.savefig(str('filters.jpg'), bbox_inches='tight')
+	#pyplot.show()
+	pyplot.clf()
 
 if(visual == 'N'):
 	layer = model.layers[1]
@@ -98,7 +100,9 @@ if(visual == 'Y'):
 			pyplot.imshow(feature_maps[0, :, :, ix-1], cmap='gray')
 			ix += 1
 	# show the figure
-	pyplot.show()
+	pyplot.savefig(str('feature_maps.jpg'), bbox_inches='tight')
+	#pyplot.show()
+	pyplot.clf()
 
 if(visual == 'N'):
 	# print feature map values from first filter and first channel
