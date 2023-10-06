@@ -4,10 +4,11 @@ import numpy as np
 from sklearn import datasets
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
+from sklearn.metrics import accuracy_score, log_loss
 
 # import some data to play with
 iris = datasets.load_iris()
-X = iris.data[:, :2]  # we only take the first two features.
+X = iris.data[:, 0:2]  # we only take the first two features.
 y = np.array(iris.target, dtype=int)
 
 kernel = 1.0 * RBF([1.0])
@@ -39,7 +40,7 @@ plt.ylim(yy.min(), yy.max())
 plt.xticks(())
 plt.yticks(())
 plt.title(
-    "%s, Kernel: %s" % (titles[0], str(classifier_x.kernel))
+    "%s" % (titles[0])
 )
 
 # Probabilidades despues de entrenamiento
@@ -59,9 +60,33 @@ plt.ylim(yy.min(), yy.max())
 plt.xticks(())
 plt.yticks(())
 plt.title(
-    "%s, Kernel: %s" % (titles[0], str(classifier_t.kernel))
+    "%s" % (titles[1])
 )
 
+print(
+    "Log marginal Likelihood (sin entrenar): %.3f"
+    % classifier_x.log_marginal_likelihood(classifier_x.kernel_.theta)
+)
+print(
+    "Log marginal Likelihood (entrenado): %.3f"
+    % classifier_t.log_marginal_likelihood(classifier_t.kernel_.theta)
+)
+
+print(
+    "Accuracy: %.3f (sin entrenar) %.3f (entrenado)"
+    % (
+        accuracy_score(y, classifier_x.predict(X)),
+        accuracy_score(y, classifier_t.predict(X))
+    )
+)
+
+print(
+    "Log-loss: %.3f (sin entrenar) %.3f (entrenado)"
+    % (
+        log_loss(y, classifier_x.predict_proba(X)),
+        log_loss(y,classifier_t.predict_proba(X))
+        )
+)
 
 plt.tight_layout()
 plt.show()
