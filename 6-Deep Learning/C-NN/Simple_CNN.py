@@ -1,3 +1,4 @@
+# Tomado de: https://www.tensorflow.org/tutorials/images/cnn
 import tensorflow as tf
 
 from tensorflow.keras import datasets, layers, models
